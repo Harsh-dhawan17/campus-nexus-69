@@ -34,9 +34,10 @@ import { Badge } from "@/components/ui/badge";
 
 interface User {
   id: string;
-  name: string;
-  role: string;
+  user_id: string;
+  full_name: string;
   email: string;
+  role: string;
 }
 
 interface AppSidebarProps {

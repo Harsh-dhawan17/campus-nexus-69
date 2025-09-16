@@ -8,9 +8,10 @@ import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 
 interface User {
   id: string;
-  name: string;
-  role: string;
+  user_id: string;
+  full_name: string;
   email: string;
+  role: string;
 }
 
 interface LibraryProps {

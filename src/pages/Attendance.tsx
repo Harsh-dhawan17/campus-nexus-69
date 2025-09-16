@@ -7,9 +7,10 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface User {
   id: string;
-  name: string;
-  role: string;
+  user_id: string;
+  full_name: string;
   email: string;
+  role: string;
 }
 
 interface AttendanceProps {
