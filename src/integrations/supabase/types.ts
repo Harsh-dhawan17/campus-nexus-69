@@ -14,7 +14,433 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      attendance: {
+        Row: {
+          class_subject: string
+          class_type: string
+          date: string
+          id: string
+          location: string | null
+          marked_at: string
+          marked_by: string | null
+          qr_code_id: string | null
+          status: string
+          time_slot: string
+          user_id: string
+        }
+        Insert: {
+          class_subject: string
+          class_type: string
+          date: string
+          id?: string
+          location?: string | null
+          marked_at?: string
+          marked_by?: string | null
+          qr_code_id?: string | null
+          status: string
+          time_slot: string
+          user_id: string
+        }
+        Update: {
+          class_subject?: string
+          class_type?: string
+          date?: string
+          id?: string
+          location?: string | null
+          marked_at?: string
+          marked_by?: string | null
+          qr_code_id?: string | null
+          status?: string
+          time_slot?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "attendance_marked_by_fkey"
+            columns: ["marked_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "attendance_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      attendance_qr_codes: {
+        Row: {
+          class_subject: string
+          class_type: string
+          code: string
+          created_at: string
+          date: string
+          expires_at: string
+          id: string
+          is_active: boolean | null
+          location: string | null
+          teacher_id: string
+          time_slot: string
+        }
+        Insert: {
+          class_subject: string
+          class_type: string
+          code: string
+          created_at?: string
+          date: string
+          expires_at: string
+          id?: string
+          is_active?: boolean | null
+          location?: string | null
+          teacher_id: string
+          time_slot: string
+        }
+        Update: {
+          class_subject?: string
+          class_type?: string
+          code?: string
+          created_at?: string
+          date?: string
+          expires_at?: string
+          id?: string
+          is_active?: boolean | null
+          location?: string | null
+          teacher_id?: string
+          time_slot?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "attendance_qr_codes_teacher_id_fkey"
+            columns: ["teacher_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      complaints: {
+        Row: {
+          assigned_to: string | null
+          attachments: string[] | null
+          category: string
+          created_at: string
+          description: string
+          id: string
+          priority: string | null
+          resolution_notes: string | null
+          resolved_at: string | null
+          status: string | null
+          subject: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          assigned_to?: string | null
+          attachments?: string[] | null
+          category: string
+          created_at?: string
+          description: string
+          id?: string
+          priority?: string | null
+          resolution_notes?: string | null
+          resolved_at?: string | null
+          status?: string | null
+          subject: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          assigned_to?: string | null
+          attachments?: string[] | null
+          category?: string
+          created_at?: string
+          description?: string
+          id?: string
+          priority?: string | null
+          resolution_notes?: string | null
+          resolved_at?: string | null
+          status?: string | null
+          subject?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "complaints_assigned_to_fkey"
+            columns: ["assigned_to"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "complaints_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      event_registrations: {
+        Row: {
+          attendance_status: string | null
+          event_id: string
+          id: string
+          registration_date: string
+          user_id: string
+        }
+        Insert: {
+          attendance_status?: string | null
+          event_id: string
+          id?: string
+          registration_date?: string
+          user_id: string
+        }
+        Update: {
+          attendance_status?: string | null
+          event_id?: string
+          id?: string
+          registration_date?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_registrations_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "event_registrations_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      events: {
+        Row: {
+          banner_url: string | null
+          capacity: number | null
+          created_at: string
+          description: string | null
+          end_date: string
+          event_type: string
+          id: string
+          location: string | null
+          organizer_id: string
+          registered_count: number | null
+          registration_deadline: string | null
+          registration_required: boolean | null
+          start_date: string
+          status: string | null
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          banner_url?: string | null
+          capacity?: number | null
+          created_at?: string
+          description?: string | null
+          end_date: string
+          event_type: string
+          id?: string
+          location?: string | null
+          organizer_id: string
+          registered_count?: number | null
+          registration_deadline?: string | null
+          registration_required?: boolean | null
+          start_date: string
+          status?: string | null
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          banner_url?: string | null
+          capacity?: number | null
+          created_at?: string
+          description?: string | null
+          end_date?: string
+          event_type?: string
+          id?: string
+          location?: string | null
+          organizer_id?: string
+          registered_count?: number | null
+          registration_deadline?: string | null
+          registration_required?: boolean | null
+          start_date?: string
+          status?: string | null
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "events_organizer_id_fkey"
+            columns: ["organizer_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      hostels: {
+        Row: {
+          address: string | null
+          amenities: string[] | null
+          capacity: number
+          created_at: string
+          current_occupancy: number | null
+          id: string
+          name: string
+          type: string
+          updated_at: string
+          warden_id: string | null
+        }
+        Insert: {
+          address?: string | null
+          amenities?: string[] | null
+          capacity: number
+          created_at?: string
+          current_occupancy?: number | null
+          id?: string
+          name: string
+          type: string
+          updated_at?: string
+          warden_id?: string | null
+        }
+        Update: {
+          address?: string | null
+          amenities?: string[] | null
+          capacity?: number
+          created_at?: string
+          current_occupancy?: number | null
+          id?: string
+          name?: string
+          type?: string
+          updated_at?: string
+          warden_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "hostels_warden_id_fkey"
+            columns: ["warden_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          avatar_url: string | null
+          created_at: string
+          department: string | null
+          email: string
+          full_name: string
+          hostel_id: string | null
+          id: string
+          phone: string | null
+          role: string | null
+          room_number: string | null
+          student_id: string | null
+          updated_at: string
+          user_id: string
+          year: number | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string
+          department?: string | null
+          email: string
+          full_name: string
+          hostel_id?: string | null
+          id?: string
+          phone?: string | null
+          role?: string | null
+          room_number?: string | null
+          student_id?: string | null
+          updated_at?: string
+          user_id: string
+          year?: number | null
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string
+          department?: string | null
+          email?: string
+          full_name?: string
+          hostel_id?: string | null
+          id?: string
+          phone?: string | null
+          role?: string | null
+          room_number?: string | null
+          student_id?: string | null
+          updated_at?: string
+          user_id?: string
+          year?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_profiles_hostel"
+            columns: ["hostel_id"]
+            isOneToOne: false
+            referencedRelation: "hostels"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      rooms: {
+        Row: {
+          amenities: string[] | null
+          capacity: number
+          created_at: string
+          current_occupancy: number | null
+          hostel_id: string
+          id: string
+          rent_per_month: number | null
+          room_number: string
+          status: string | null
+          updated_at: string
+        }
+        Insert: {
+          amenities?: string[] | null
+          capacity: number
+          created_at?: string
+          current_occupancy?: number | null
+          hostel_id: string
+          id?: string
+          rent_per_month?: number | null
+          room_number: string
+          status?: string | null
+          updated_at?: string
+        }
+        Update: {
+          amenities?: string[] | null
+          capacity?: number
+          created_at?: string
+          current_occupancy?: number | null
+          hostel_id?: string
+          id?: string
+          rent_per_month?: number | null
+          room_number?: string
+          status?: string | null
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "rooms_hostel_id_fkey"
+            columns: ["hostel_id"]
+            isOneToOne: false
+            referencedRelation: "hostels"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
