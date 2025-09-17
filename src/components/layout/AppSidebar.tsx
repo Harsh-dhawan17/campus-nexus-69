@@ -48,7 +48,7 @@ interface User {
 }
 
 interface AppSidebarProps {
-  user: User;
+  user: User | null;
   onLogout: () => void;
 }
 
@@ -90,6 +90,8 @@ export function AppSidebar({ user, onLogout }: AppSidebarProps) {
   const currentPath = location.pathname;
 
   const getMenuItems = () => {
+    if (!user) return studentMenuItems; // Default to student menu when user is null
+    
     switch (user.role) {
       case "admin":
         return adminMenuItems;
@@ -109,6 +111,8 @@ export function AppSidebar({ user, onLogout }: AppSidebarProps) {
       : "hover:bg-sidebar-accent/50 text-sidebar-foreground";
 
   const getRoleBadgeColor = (role: string) => {
+    if (!role) return "secondary"; // Default color when role is null
+    
     switch (role) {
       case "admin":
         return "destructive";
@@ -172,7 +176,7 @@ export function AppSidebar({ user, onLogout }: AppSidebarProps) {
                     <Badge variant="destructive" className="ml-auto">3</Badge>
                   </SidebarMenuButton>
                 </SidebarMenuItem>
-                {user.role === "student" && (
+                {user && user.role === "student" && (
                   <SidebarMenuItem>
                     <SidebarMenuButton>
                       <CreditCard className="h-4 w-4" />
@@ -189,22 +193,22 @@ export function AppSidebar({ user, onLogout }: AppSidebarProps) {
       <SidebarFooter className="border-t border-sidebar-border p-4">
         <div className="flex items-center gap-3">
           <Avatar className="h-8 w-8">
-            <AvatarFallback className="bg-gradient-primary text-primary-foreground font-medium">
-              {user.full_name.split(' ').map(n => n[0]).join('')}
-            </AvatarFallback>
+              <AvatarFallback className="bg-gradient-primary text-primary-foreground font-medium">
+                {user?.full_name ? user.full_name.split(' ').map(n => n[0]).join('') : 'U'}
+              </AvatarFallback>
           </Avatar>
           {!collapsed && (
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
                 <p className="text-sm font-medium text-sidebar-foreground truncate">
-                  {user.full_name}
+                  {user?.full_name || 'Loading...'}
                 </p>
-                <Badge variant={getRoleBadgeColor(user.role)} className="text-xs">
-                  {user.role}
+                <Badge variant={getRoleBadgeColor(user?.role || 'student')} className="text-xs">
+                  {user?.role || 'student'}
                 </Badge>
               </div>
               <p className="text-xs text-sidebar-foreground/60 truncate">
-                {user.email}
+                {user?.email || 'Loading...'}
               </p>
             </div>
           )}
