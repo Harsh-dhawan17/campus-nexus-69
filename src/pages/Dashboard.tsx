@@ -17,6 +17,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { useRealtimeAttendance, useRealtimeEvents, useRealtimeComplaints } from '@/hooks/useRealtime';
 
 interface User {
   id: string;
@@ -24,6 +25,13 @@ interface User {
   full_name: string;
   email: string;
   role: string;
+  student_id?: string;
+  department?: string;
+  year?: number;
+  phone?: string;
+  avatar_url?: string;
+  hostel_id?: string;
+  room_number?: string;
 }
 
 interface DashboardProps {
@@ -31,10 +39,24 @@ interface DashboardProps {
 }
 
 export default function Dashboard({ user }: DashboardProps) {
+  // Real-time hooks for live updates
+  const attendanceUpdated = useRealtimeAttendance();
+  const eventsUpdated = useRealtimeEvents();
+  const complaintsUpdated = useRealtimeComplaints();
+
+  // Add null check for user
+  if (!user) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
   const getWelcomeMessage = () => {
     const hour = new Date().getHours();
     const greeting = hour < 12 ? "Good Morning" : hour < 18 ? "Good Afternoon" : "Good Evening";
-    return `${greeting}, ${user.name.split(' ')[0]}!`;
+    return `${greeting}, ${user.full_name.split(' ')[0]}!`;
   };
 
   const studentStats = [
@@ -59,6 +81,8 @@ export default function Dashboard({ user }: DashboardProps) {
   ];
 
   const getStats = () => {
+    if (!user || !user.role) return studentStats;
+    
     switch (user.role) {
       case "admin":
         return adminStats;
@@ -98,7 +122,7 @@ export default function Dashboard({ user }: DashboardProps) {
           <div className="hidden md:flex items-center gap-4">
             <Avatar className="h-16 w-16 border-2 border-primary-foreground/20">
               <AvatarFallback className="bg-primary-foreground/10 text-primary-foreground text-lg font-bold">
-                {user.name.split(' ').map(n => n[0]).join('')}
+                {user.full_name.split(' ').map(n => n[0]).join('')}
               </AvatarFallback>
             </Avatar>
             <div>
@@ -193,7 +217,7 @@ export default function Dashboard({ user }: DashboardProps) {
       </div>
 
       {/* Quick Actions */}
-      {user.role === "student" && (
+      {user && user.role === "student" && (
         <Card className="shadow-soft bg-gradient-card">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
@@ -226,7 +250,7 @@ export default function Dashboard({ user }: DashboardProps) {
       )}
 
       {/* Attendance Progress (Student Only) */}
-      {user.role === "student" && (
+      {user && user.role === "student" && (
         <Card className="shadow-soft bg-gradient-card">
           <CardHeader>
             <CardTitle className="flex items-center gap-2">

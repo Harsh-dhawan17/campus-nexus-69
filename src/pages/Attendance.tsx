@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useRealtimeAttendance } from '@/hooks/useRealtime';
 
 interface User {
   id: string;
@@ -11,6 +12,13 @@ interface User {
   full_name: string;
   email: string;
   role: string;
+  student_id?: string;
+  department?: string;
+  year?: number;
+  phone?: string;
+  avatar_url?: string;
+  hostel_id?: string;
+  room_number?: string;
 }
 
 interface AttendanceProps {
@@ -18,6 +26,9 @@ interface AttendanceProps {
 }
 
 export default function Attendance({ user }: AttendanceProps) {
+  // Real-time attendance updates
+  const attendanceUpdated = useRealtimeAttendance();
+
   const attendanceRecords = [
     { date: "2024-01-15", subject: "Computer Science", status: "present", time: "09:00 AM" },
     { date: "2024-01-15", subject: "Mathematics", status: "present", time: "11:00 AM" },

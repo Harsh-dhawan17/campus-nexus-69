@@ -8,11 +8,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { User, Mail, Phone, MapPin, GraduationCap, Building, Calendar, Edit, Save, X } from "lucide-react";
+import { User as UserIcon, Mail, Phone, MapPin, GraduationCap, Building, Calendar, Edit, Save, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 
-interface User {
+interface UserProfile {
   id: string;
   user_id: string;
   full_name: string;
@@ -25,12 +25,12 @@ interface User {
   avatar_url?: string;
   hostel_id?: string;
   room_number?: string;
-  created_at: string;
-  updated_at: string;
+  created_at?: string;
+  updated_at?: string;
 }
 
 interface ProfileProps {
-  user: User | null;
+  user: UserProfile;
 }
 
 interface Hostel {
@@ -40,7 +40,7 @@ interface Hostel {
 }
 
 export default function Profile({ user }: ProfileProps) {
-  const [profile, setProfile] = useState<User | null>(user);
+  const [profile, setProfile] = useState<UserProfile | null>(user);
   const [hostels, setHostels] = useState<Hostel[]>([]);
   const [isEditing, setIsEditing] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -276,7 +276,7 @@ export default function Profile({ user }: ProfileProps) {
               
               <div className="flex items-center space-x-2 text-sm">
                 <Calendar className="h-4 w-4 text-muted-foreground" />
-                <span>Joined {new Date(profile.created_at).toLocaleDateString()}</span>
+                <span>Joined {profile.created_at ? new Date(profile.created_at).toLocaleDateString() : 'Recently'}</span>
               </div>
             </div>
           </CardContent>
@@ -419,7 +419,7 @@ export default function Profile({ user }: ProfileProps) {
                   <div className="flex-1">
                     <p className="text-sm font-medium">Profile updated</p>
                     <p className="text-xs text-muted-foreground">
-                      {new Date(profile.updated_at).toLocaleDateString()}
+                      {profile.updated_at ? new Date(profile.updated_at).toLocaleDateString() : 'No updates yet'}
                     </p>
                   </div>
                 </div>
@@ -429,7 +429,7 @@ export default function Profile({ user }: ProfileProps) {
                   <div className="flex-1">
                     <p className="text-sm font-medium">Account created</p>
                     <p className="text-xs text-muted-foreground">
-                      {new Date(profile.created_at).toLocaleDateString()}
+                      {profile.created_at ? new Date(profile.created_at).toLocaleDateString() : 'Recently'}
                     </p>
                   </div>
                 </div>

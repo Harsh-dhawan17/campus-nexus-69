@@ -38,6 +38,13 @@ interface User {
   full_name: string;
   email: string;
   role: string;
+  student_id?: string;
+  department?: string;
+  year?: number;
+  phone?: string;
+  avatar_url?: string;
+  hostel_id?: string;
+  room_number?: string;
 }
 
 interface AppSidebarProps {
@@ -183,14 +190,14 @@ export function AppSidebar({ user, onLogout }: AppSidebarProps) {
         <div className="flex items-center gap-3">
           <Avatar className="h-8 w-8">
             <AvatarFallback className="bg-gradient-primary text-primary-foreground font-medium">
-              {user.name.split(' ').map(n => n[0]).join('')}
+              {user.full_name.split(' ').map(n => n[0]).join('')}
             </AvatarFallback>
           </Avatar>
           {!collapsed && (
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2">
                 <p className="text-sm font-medium text-sidebar-foreground truncate">
-                  {user.name}
+                  {user.full_name}
                 </p>
                 <Badge variant={getRoleBadgeColor(user.role)} className="text-xs">
                   {user.role}
