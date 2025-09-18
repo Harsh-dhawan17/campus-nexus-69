@@ -15,6 +15,8 @@ import HostelManagement from "./pages/HostelManagement";
 import EventManagement from "./pages/EventManagement";
 import ComplaintManagement from "./pages/ComplaintManagement";
 import Profile from "./pages/Profile";
+import StudentManagement from "./pages/StudentManagement";
+import AttendanceMarking from "./pages/AttendanceMarking";
 import QRScanner from "./pages/QRScanner";
 
 const queryClient = new QueryClient();
@@ -60,6 +62,8 @@ function AppContent() {
               <Route path="/" element={<Navigate to="/dashboard" replace />} />
               <Route path="/dashboard" element={<Dashboard user={profile} />} />
               <Route path="/attendance" element={<Attendance user={profile} />} />
+              <Route path="/attendance-marking" element={<AttendanceMarking user={profile} />} />
+              <Route path="/student-management" element={<StudentManagement user={profile} />} />
               <Route path="/library" element={<Library user={profile} />} />
               <Route path="/hostel" element={<HostelManagement user={profile} />} />
               <Route path="/events" element={<EventManagement user={profile} />} />

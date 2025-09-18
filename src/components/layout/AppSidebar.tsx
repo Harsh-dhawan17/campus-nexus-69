@@ -64,8 +64,9 @@ const studentMenuItems = [
 
 const teacherMenuItems = [
   { title: "Dashboard", url: "/dashboard", icon: BarChart3 },
+  { title: "Attendance Marking", url: "/attendance-marking", icon: QrCode },
   { title: "Attendance", url: "/attendance", icon: QrCode },
-  { title: "Students", url: "/students", icon: Users },
+  { title: "Student Management", url: "/student-management", icon: Users },
   { title: "Library", url: "/library", icon: BookOpen },
   { title: "Events", url: "/events", icon: Calendar },
   { title: "Profile", url: "/profile", icon: User },
@@ -73,7 +74,8 @@ const teacherMenuItems = [
 
 const adminMenuItems = [
   { title: "Dashboard", url: "/dashboard", icon: BarChart3 },
-  { title: "Users", url: "/users", icon: Users },
+  { title: "Student Management", url: "/student-management", icon: Users },
+  { title: "Attendance Marking", url: "/attendance-marking", icon: QrCode },
   { title: "Attendance", url: "/attendance", icon: QrCode },
   { title: "Library", url: "/library", icon: BookOpen },
   { title: "Hostel", url: "/hostel", icon: Building },
@@ -169,13 +171,6 @@ export function AppSidebar({ user, onLogout }: AppSidebarProps) {
             <SidebarGroupLabel className="text-sidebar-foreground/60">Quick Actions</SidebarGroupLabel>
             <SidebarGroupContent>
               <SidebarMenu>
-                <SidebarMenuItem>
-                  <SidebarMenuButton>
-                    <Bell className="h-4 w-4" />
-                    <span>Notifications</span>
-                    <Badge variant="destructive" className="ml-auto">3</Badge>
-                  </SidebarMenuButton>
-                </SidebarMenuItem>
                 {user && user.role === "student" && (
                   <SidebarMenuItem>
                     <SidebarMenuButton>
